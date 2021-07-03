@@ -543,6 +543,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   }
 
   // add panda GPS altitude
+  /* GPS Delete 화판
   if (UI_FEATURE_RIGHT_GPS_ALTITUDE) {
     char val_str[16];
     char uom_str[3];
@@ -558,6 +559,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   }
 
   // add panda GPS accuracy
+  
   if (UI_FEATURE_RIGHT_GPS_ACCURACY) {
     char val_str[16];
     char uom_str[3];
@@ -609,7 +611,8 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         value_fontSize, label_fontSize, uom_fontSize );
     bb_ry = bb_y + bb_h;
   }
-
+  GPS 삭제 화판 */
+	
   //finally draw the frame
   bb_h += 40;
   nvgBeginPath(s->vg);
@@ -741,12 +744,12 @@ static void bb_ui_draw_UI(UIState *s)
 // 스위치 화면 비우기 시작
 #if UI_FEATURE_LEFT
   if(s->show_debug_ui)
-    bb_ui_draw_measures_left(s, bb_dml_x, bb_dml_y, bb_dml_w);
+    bb_ui_draw_measures_left(s, bb_dml_x, bb_dml_y -25, bb_dml_w);
 #endif
 
 #if UI_FEATURE_RIGHT
   if(s->show_debug_ui)
-    bb_ui_draw_measures_right(s, bb_dmr_x, bb_dmr_y, bb_dmr_w);
+    bb_ui_draw_measures_right(s, bb_dmr_x, bb_dmr_y +300, bb_dmr_w);
 #endif
 
   bb_ui_draw_basic_info(s);
@@ -846,7 +849,7 @@ static void ui_draw_vision_maxspeed(UIState *s) {
 
   bool is_cruise_set = (cruiseRealMaxSpeed > 0 && cruiseRealMaxSpeed < 255);
 
-  const Rect rect = {s->viz_rect.x + (bdr_s * 2), int(s->viz_rect.y + (bdr_s * 1.5)), 184, 202};
+  const Rect rect = {s->viz_rect.x + (bdr_s * 2) + 200, int(s->viz_rect.y + (bdr_s * 1.5) + 500), 184, 202};
   ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(100), 30.);
   ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
 
@@ -862,23 +865,23 @@ static void ui_draw_vision_maxspeed(UIState *s) {
     else
         snprintf(str, sizeof(str), "%d", (int)(cruiseVirtualMaxSpeed*0.621371 + 0.5));
 
-    ui_draw_text(s, text_x, 98+bdr_s, str, 33 * 2.5, COLOR_WHITE, "sans-semibold");
+    ui_draw_text(s, text_x, 98+bdr_s + 500, str, 33 * 2.5, COLOR_WHITE, "sans-semibold");
 
     if(s->scene.is_metric)
         snprintf(str, sizeof(str), "%d", (int)(cruiseRealMaxSpeed + 0.5));
     else
         snprintf(str, sizeof(str), "%d", (int)(cruiseRealMaxSpeed*0.621371 + 0.5));
 
-    ui_draw_text(s, text_x, 192+bdr_s, str, 48 * 2.5, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, text_x, 192+bdr_s + 500, str, 48 * 2.5, COLOR_WHITE, "sans-bold");
   }
   else
   {
     if(longControl)
-        ui_draw_text(s, text_x, 98+bdr_s, "OP", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+        ui_draw_text(s, text_x, 98+bdr_s + 500, "OP", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
     else
-        ui_draw_text(s, text_x, 98+bdr_s, "MAX", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+        ui_draw_text(s, text_x, 98+bdr_s + 500, "MAX", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
 
-    ui_draw_text(s, text_x, 192+bdr_s, "N/A", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+    ui_draw_text(s, text_x, 192+bdr_s + 500, "N/A", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
   }
 }
 
@@ -898,8 +901,8 @@ static void ui_draw_vision_speed(UIState *s) {
   else if( s->scene.brakeLights ) val_color = nvgRGBA(201, 34, 49, 100);
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
 
-  ui_draw_text(s, s->viz_rect.centerX(), 220, speed_str.c_str(), 100*2.5, val_color, "sans-bold");
-  ui_draw_text(s, s->viz_rect.centerX(), 300, s->scene.is_metric ? "km/h" : "mph", 38*2.5, COLOR_WHITE_ALPHA(200), "sans-semibold");
+  ui_draw_text(s, s->viz_rect.centerX(), 220 + 600, speed_str.c_str(), 126*2.5, val_color, "sans-bold");
+  ui_draw_text(s, s->viz_rect.centerX(), 300 + 600, s->scene.is_metric ? "km/h" : "mph", 38*2.5, COLOR_WHITE_ALPHA(200), "sans-semibold");
  
 
   if(scene->leftBlinker) {
